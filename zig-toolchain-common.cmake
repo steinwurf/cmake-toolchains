@@ -14,3 +14,4 @@ set(CMAKE_CXX_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-c++${SCRIPT_SUFFIX}" -targ
 # This is working (thanks to Simon for finding this trick)
 set(CMAKE_AR "${CMAKE_CURRENT_LIST_DIR}/zig-ar${SCRIPT_SUFFIX}")
 set(CMAKE_RANLIB "${CMAKE_CURRENT_LIST_DIR}/zig-ranlib${SCRIPT_SUFFIX}")
+set(CMAKE_OBJCOPY "${CMAKE_CURRENT_LIST_DIR}/zig-objcopy${SCRIPT_SUFFIX}")
