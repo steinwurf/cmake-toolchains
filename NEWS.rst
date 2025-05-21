@@ -1,12 +1,12 @@
-News for cmake-toolchains waf build script
-==================================
+News for cmake-toolchains 
+==========================
 
 This file lists the major changes between versions. For a more detailed list of
 every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Force static runtime linking on Windows for MSVC.
 
 1.0.0
 -----
