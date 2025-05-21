@@ -6,7 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Adding more sanitizers from Clang. 
 
 1.0.1
 -----
