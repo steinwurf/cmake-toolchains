@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.0.1
+-----
 * Patch: Force static runtime linking on Windows for MSVC.
 
 1.0.0
