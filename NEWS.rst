@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.0.4
+-----
 * Patch: Add no-debug toolchain to trigger errors when variables are only used in asserts.
 
 1.0.3
