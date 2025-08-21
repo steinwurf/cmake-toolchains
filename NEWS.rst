@@ -6,7 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Fix clang-toolchain.cmake to not force lld as the linker.
 
 1.0.4
 -----
