@@ -1,4 +1,4 @@
-News for cmake-toolchains 
+News for cmake-toolchains
 ==========================
 
 This file lists the major changes between versions. For a more detailed list of
@@ -6,7 +6,8 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Update common_settings.cmake to have the WurfRelase build type defined
+  there.
 
 1.0.5
 -----
@@ -22,7 +23,7 @@ Latest
 
 1.0.2
 -----
-* Patch: Adding more sanitizers from Clang. 
+* Patch: Adding more sanitizers from Clang.
 
 1.0.1
 -----
@@ -30,5 +31,5 @@ Latest
 
 1.0.0
 -----
-* Major: Initial version of cmake-toolchains. 
+* Major: Initial version of cmake-toolchains.
 
