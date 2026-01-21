@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.0.6
+-----
 * Patch: Update common_settings.cmake to have the WurfRelase build type defined
   there.
 
