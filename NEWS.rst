@@ -6,7 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Fix common_settings.cmake to always set WurfRelase flags.
 
 1.0.6
 -----
