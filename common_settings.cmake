@@ -1,6 +1,8 @@
 # Common settings for CMake projects
 
-  set(CMAKE_CXX_EXTENSIONS OFF)
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+    # We just do this once for the top-level project
+    set(CMAKE_CXX_EXTENSIONS OFF)
 
   if(MSVC)
     # Enforce static runtime on Windows/MSVC
@@ -35,5 +37,11 @@
     endif()
   endif()
 
+  if(CMAKE_BUILD_TYPE STREQUAL "WurfRelease")
+    add_definitions(-DWURFRELEASE)
+  else()
+    add_definitions(-DWURFDEBUG)
+  endif()
 
+endif()
 
