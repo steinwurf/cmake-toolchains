@@ -6,7 +6,9 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Update common_settings.cmake to define WURFRELEASE and WURFDEBUG
+  depending on the build type. This allows users to check for these definitions
+  and print appropriate messages.
 
 1.0.7
 -----
