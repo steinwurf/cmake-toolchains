@@ -27,6 +27,11 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   set(CMAKE_C_FLAGS_WURFRELEASE "-O2 -g -UNDEBUG")
   
 
+  # Define the WurfFlameGraph build type / configuration.
+  # -O2 optimization level as flame graphs are typically used for performance analysis and we want to optimize the code
+  # -g include debug information
+  # -UNDEBUG disable NDEBUG which is set in Release mode (ensure that asserts are active)
+  # -fno-omit-frame-pointer ensure that the frame pointer is not omitted, which is crucial for accurate stack traces in flame graphs
   set(CMAKE_CXX_FLAGS_WURFFLAMEGRAPH "-O2 -g -UNDEBUG -fno-omit-frame-pointer")
   set(CMAKE_C_FLAGS_WURFFLAMEGRAPH "-O2 -g -UNDEBUG -fno-omit-frame-pointer")
 
