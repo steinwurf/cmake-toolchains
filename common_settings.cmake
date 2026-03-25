@@ -25,9 +25,20 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
   set(CMAKE_CXX_FLAGS_WURFRELEASE "-O2 -g -UNDEBUG")
   set(CMAKE_C_FLAGS_WURFRELEASE "-O2 -g -UNDEBUG")
+  
+
+  # Define the WurfFlameGraph build type / configuration its an extention of WurfRelease.
+  # -O2 optimization level as flame graphs are typically used for performance analysis and we want to optimize the code
+  # -g include debug information
+  # -UNDEBUG disable NDEBUG which is set in Release mode (ensure that asserts are active)
+  # -fno-omit-frame-pointer ensure that the frame pointer is not omitted, which is crucial for accurate stack traces in flame graphs
+  set(CMAKE_CXX_FLAGS_WURFFLAMEGRAPH "${CMAKE_CXX_FLAGS_WURFRELEASE} -fno-omit-frame-pointer")
+  set(CMAKE_C_FLAGS_WURFFLAMEGRAPH "${CMAKE_C_FLAGS_WURFRELEASE} -fno-omit-frame-pointer")
+
+
 
   # Check that a build type is set and that it is one of the supported ones
-  set(allowed_build_types Debug WurfRelease)
+  set(allowed_build_types Debug WurfRelease WurfFlameGraph)
   if(NOT CMAKE_BUILD_TYPE)
     message(FATAL_ERROR "CMAKE_BUILD_TYPE is not set. Allowed values are: ${allowed_build_types}.")
   else()
