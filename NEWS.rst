@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.1.0
+-----
 * Minor: Add `WurfFlameGraph` build type that produces an optimized build with extra flags to get usefull flamegraphs 
 
 1.0.8
