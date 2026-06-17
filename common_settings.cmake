@@ -35,10 +35,38 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   set(CMAKE_CXX_FLAGS_WURFFLAMEGRAPH "${CMAKE_CXX_FLAGS_WURFRELEASE} -fno-omit-frame-pointer")
   set(CMAKE_C_FLAGS_WURFFLAMEGRAPH "${CMAKE_C_FLAGS_WURFRELEASE} -fno-omit-frame-pointer")
 
+  # Define the WurfRelease_PGO_Prof build type / configuration its an extention of WurfRelease.
+  # -O2 optimization level as PGO is typically used for performance analysis and we want to optimize the code
+  # -g include debug information
+  # -UNDEBUG disable NDEBUG which is set in Release mode (ensure that asserts are
+  #  active)
+  # -fprofile-generate enable profile generation for PGO, which instruments the code to
+  #  collect runtime profile data that can be used for optimizing the code in a subsequent PGO build
+  set(CMAKE_CXX_FLAGS_WURFRELEASE_PGO_PROF "${CMAKE_CXX_FLAGS_WURFRELEASE} -fprofile-generate")
+  set(CMAKE_C_FLAGS_WURFRELEASE_PGO_PROF "${CMAKE_C_FLAGS_WURFRELEASE} -fprofile-generate") 
+  
+  # MANDATORY: The linker must also have the generate flag to link the LLVM profiling runtime
+  set(CMAKE_EXE_LINKER_FLAGS_WURFRELEASE_PGO_PROF "-fprofile-generate")
+  set(CMAKE_SHARED_LINKER_FLAGS_WURFRELEASE_PGO_PROF "-fprofile-generate")
+  
+  # Fail the configuration immediately if the target profile file does not exist
+  if(CMAKE_BUILD_TYPE STREQUAL "WurfRelease_PGO_Use")
+      if(NOT EXISTS "${PGO_PROFILE_FILE}")
+          message(FATAL_ERROR "PGO profile data not found at: ${PGO_PROFILE_FILE}\nPlease generate it using the WurfRelease_PGO_Prof build type first, or provide a valid path using -DPGO_PROFILE_FILE.")
+      endif()
+  endif()
+
+  set(CMAKE_CXX_FLAGS_WURFRELEASE_PGO_USE "${CMAKE_CXX_FLAGS_WURFRELEASE} -fprofile-use=${PGO_PROFILE_FILE} -Wno-profile-instr-unprofiled -Wno-profile-instr-out-of-date")
+  set(CMAKE_C_FLAGS_WURFRELEASE_PGO_USE "${CMAKE_C_FLAGS_WURFRELEASE} -fprofile-use=${PGO_PROFILE_FILE} -Wno-profile-instr-unprofiled -Wno-profile-instr-out-of-date")
+
+  # MANDATORY: The linker must also use the profile data
+  set(CMAKE_EXE_LINKER_FLAGS_WURFRELEASE_PGO_USE "-fprofile-use=${PGO_PROFILE_FILE}")
+  set(CMAKE_SHARED_LINKER_FLAGS_WURFRELEASE_PGO_USE "-fprofile-use=${PGO_PROFILE_FILE}")
+
 
 
   # Check that a build type is set and that it is one of the supported ones
-  set(allowed_build_types Debug WurfRelease WurfFlameGraph)
+  set(allowed_build_types Debug WurfRelease WurfFlameGraph WurfRelease_PGO_Prof WurfRelease_PGO_Use)
   if(NOT CMAKE_BUILD_TYPE)
     message(FATAL_ERROR "CMAKE_BUILD_TYPE is not set. Allowed values are: ${allowed_build_types}.")
   else()
