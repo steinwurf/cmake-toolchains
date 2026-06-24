@@ -26,6 +26,9 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
   set(CMAKE_CXX_FLAGS_WURFRELEASE "-O2 -g -UNDEBUG")
   set(CMAKE_C_FLAGS_WURFRELEASE "-O2 -g -UNDEBUG")
   
+  # For WurfReleaseNoAssert we want to have the same optimization level and debug information as WurfRelease, but we want to disable asserts. This is useful for performance testing where we want to ensure that asserts are not affecting performance.
+  set(CMAKE_CXX_FLAGS_WURFRELEASE_NO_ASSERT "-O2 -g -DNDEBUG")
+  set(CMAKE_C_FLAGS_WURFRELEASE_NO_ASSERT "-O2 -g -DNDEBUG")
 
   # Define the WurfFlameGraph build type / configuration its an extention of WurfRelease.
   # -O2 optimization level as flame graphs are typically used for performance analysis and we want to optimize the code
@@ -66,7 +69,7 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 
   # Check that a build type is set and that it is one of the supported ones
-  set(allowed_build_types Debug WurfRelease WurfFlameGraph WurfRelease_PGO_Prof WurfRelease_PGO_Use)
+  set(allowed_build_types Debug WurfRelease WurfRelease_No_Assert WurfFlameGraph WurfRelease_PGO_Prof WurfRelease_PGO_Use)
   if(NOT CMAKE_BUILD_TYPE)
     message(FATAL_ERROR "CMAKE_BUILD_TYPE is not set. Allowed values are: ${allowed_build_types}.")
   else()
