@@ -89,7 +89,7 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
   if(CMAKE_BUILD_TYPE STREQUAL "WurfRelease")
     add_definitions(-DWURFRELEASE)
-	# Enable LTO (Link Time Optimization) for WurfRelease build type if supported by the compiler this has shown go give significant performance gains 
+	# Enable LTO (Link Time Optimization) for WurfRelease build type if supported by the compiler this has shown to give significant performance gains 
 	# 1. Include the built-in IPO/LTO checking module
 	include(CheckIPOSupported)
 	check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
