@@ -6,7 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Add `WurfRelease_Osize WurfRelease_No_Assert WurfRelease_Full_LTO WurfRelease_PGO_Prof WurfRelease_PGO_Use` helper profiles for performance optimization and profiling. Additionaly enable LTO by default for `WurfRelease` if the compiler/toolchain support it.
 
 1.1.0
 -----
