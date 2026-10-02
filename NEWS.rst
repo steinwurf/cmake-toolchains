@@ -6,7 +6,13 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Add `STEINWURF_LTO_MODE` (thin or full, also readable from the
+  environment) to pick the LTO mode used by the `WurfRelease` build type. The
+  zig toolchains now pin the mode on the clang `-cc1` command line, as the zig
+  driver otherwise rewrites the `-flto=thin` that cmake passes for IPO into
+  `-flto=full`. `WurfRelease` therefore defaults to real thin LTO, which links
+  considerably faster since the linker backend runs in parallel. Use
+  `-DSTEINWURF_LTO_MODE=full` to get the previous behavior.
 
 1.2.0
 -----

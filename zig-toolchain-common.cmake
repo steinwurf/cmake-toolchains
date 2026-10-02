@@ -8,6 +8,11 @@ else()
     set(SCRIPT_SUFFIX ".sh")
 endif()
 
+# Let the project settings know that clang is driven by zig. zig rewrites
+# some of the clang options it is given, so a few settings need to be applied
+# differently, see STEINWURF_LTO_MODE in common_settings.cmake.
+set(STEINWURF_ZIG_TOOLCHAIN TRUE)
+
 set(CMAKE_C_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})
 set(CMAKE_CXX_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-c++${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})
 set(CMAKE_ASM_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})

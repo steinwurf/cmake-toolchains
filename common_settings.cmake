@@ -87,6 +87,28 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     endif()
   endif()
 
+  # LTO mode used when LTO is enabled for the WurfRelease build type.
+  #
+  # "thin" lets the linker run the LTO backend in parallel, "full" optimizes
+  # the whole program as a single module. Only used by the zig toolchains,
+  # other compilers are left with the mode cmake picks for IPO. The mode can
+  # also be set with the STEINWURF_LTO_MODE environment variable, which is
+  # useful when cmake is invoked through a wrapper that does not forward -D
+  # options.
+  if(DEFINED ENV{STEINWURF_LTO_MODE} AND NOT DEFINED STEINWURF_LTO_MODE)
+    set(steinwurf_default_lto_mode "$ENV{STEINWURF_LTO_MODE}")
+  else()
+    set(steinwurf_default_lto_mode "thin")
+  endif()
+
+  set(STEINWURF_LTO_MODE "${steinwurf_default_lto_mode}" CACHE STRING
+    "LTO mode used for the WurfRelease build type: thin or full.")
+  set_property(CACHE STEINWURF_LTO_MODE PROPERTY STRINGS thin full)
+
+  if(NOT STEINWURF_LTO_MODE MATCHES "^(thin|full)$")
+    message(FATAL_ERROR "Invalid STEINWURF_LTO_MODE: ${STEINWURF_LTO_MODE}. Allowed values are: thin, full.")
+  endif()
+
   if(CMAKE_BUILD_TYPE STREQUAL "WurfRelease")
     add_definitions(-DWURFRELEASE)
 	# Enable LTO (Link Time Optimization) for WurfRelease build type if supported by the compiler this has shown to give significant performance gains 
@@ -96,8 +118,32 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 
 	# 2. Enable LTO globally for ALL targets and ALL profiles
 	if(ipo_supported)
-		message(STATUS "Global IPO / Full LTO enabled")
 		set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+		# 3. Pin the LTO mode on the clang -cc1 command line when clang is
+		# driven by zig.
+		#
+		# cmake implements IPO for clang by passing -flto=thin, but the zig
+		# c++ driver rewrites that to -flto=full before calling clang -cc1
+		# (seen with both zig 0.13 and zig 0.16). The objects then carry a
+		# FULL_LTO_GLOBALVAL_SUMMARY_BLOCK instead of a
+		# GLOBALVAL_SUMMARY_BLOCK, which means the linker optimizes and
+		# code-generates the whole program in a single thread.
+		#
+		# -Xclang hands the option straight to -cc1, after the rewrite, so it
+		# is what decides the mode. With thin LTO the linker backend runs in
+		# parallel: on plumr this took the final link from 155s on one core
+		# to 48s across ~8 cores, at the cost of a 1.3% larger stripped
+		# binary. Measure before changing the mode of an existing project,
+		# full LTO can still optimize better.
+		if(STEINWURF_ZIG_TOOLCHAIN AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+			add_compile_options(
+				"$<$<COMPILE_LANGUAGE:C>:-Xclang;-flto=${STEINWURF_LTO_MODE}>"
+				"$<$<COMPILE_LANGUAGE:CXX>:-Xclang;-flto=${STEINWURF_LTO_MODE}>")
+			message(STATUS "Global IPO / ${STEINWURF_LTO_MODE} LTO enabled")
+		else()
+			message(STATUS "Global IPO / LTO enabled")
+		endif()
 	else()
 		message(WARNING "IPO / LTO is not supported: ${ipo_error}")
 	endif()
