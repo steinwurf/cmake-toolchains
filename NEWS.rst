@@ -6,7 +6,11 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: The zig toolchains set ``CMAKE_<LANG>_COMPILER_AR`` and
+  ``CMAKE_<LANG>_COMPILER_RANLIB`` to the zig wrappers. CMake's IPO check
+  archives with these. Unless an ``llvm-ar`` happened to be on ``PATH``, they
+  were not found, the check failed and ``WurfRelease`` built without the LTO
+  that 1.2.0 turned on, with only a configure warning.
 
 1.5.0
 -----
