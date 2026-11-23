@@ -6,7 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Add ``zig-toolchain-arm-linux-musleabihf-cortex_a7.cmake`` for ARMv7
+  Cortex-A7 with NEON. Zig's default for ``arm-linux-musleabihf`` is ARMv6
+  without NEON. A toolchain file can set ``ZIG_CPU``, which is passed to zig as
+  ``-mcpu``.
 
 1.2.0
 -----
