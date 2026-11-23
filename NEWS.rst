@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.5.0
+-----
 * Minor: ``common_settings.cmake`` sets ``CMAKE_CXX_STANDARD`` to 17 unless it
   is already defined. Before, it only turned ``CMAKE_CXX_EXTENSIONS`` off, and
   with CMake 3.22 or newer (policy CMP0128) that adds the compiler's default
