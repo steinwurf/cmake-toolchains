@@ -6,7 +6,9 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: The clang UBSan toolchain adds ``-fno-sanitize-recover=undefined``,
+  so UBSan aborts on the first error. Before, it printed a runtime error and
+  carried on, so tests with undefined behaviour still passed.
 
 1.2.0
 -----
