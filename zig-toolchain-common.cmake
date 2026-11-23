@@ -8,9 +8,15 @@ else()
     set(SCRIPT_SUFFIX ".sh")
 endif()
 
-set(CMAKE_C_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})
-set(CMAKE_CXX_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-c++${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})
-set(CMAKE_ASM_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET})
+# Toolchains for a specific CPU set ZIG_CPU, which zig takes as -mcpu.
+# Without it zig builds for the baseline CPU of the target.
+if(ZIG_CPU)
+    set(ZIG_CPU_FLAG "-mcpu=${ZIG_CPU}")
+endif()
+
+set(CMAKE_C_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET} ${ZIG_CPU_FLAG})
+set(CMAKE_CXX_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-c++${SCRIPT_SUFFIX}" -target ${ZIG_TARGET} ${ZIG_CPU_FLAG})
+set(CMAKE_ASM_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -target ${ZIG_TARGET} ${ZIG_CPU_FLAG})
 
 # This is working (thanks to Simon for finding this trick)
 set(CMAKE_AR "${CMAKE_CURRENT_LIST_DIR}/zig-ar${SCRIPT_SUFFIX}")
