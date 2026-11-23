@@ -6,7 +6,12 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: ``common_settings.cmake`` sets ``CMAKE_CXX_STANDARD`` to 17 unless it
+  is already defined. Before, it only turned ``CMAKE_CXX_EXTENSIONS`` off, and
+  with CMake 3.22 or newer (policy CMP0128) that adds the compiler's default
+  standard to configure checks. AppleClang 16 defaults to C++98, so protobuf's
+  atomics check failed and protobuf linked ``libatomic``, which macOS does not
+  have.
 
 1.4.0
 -----

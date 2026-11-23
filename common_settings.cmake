@@ -4,6 +4,15 @@ if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
     # We just do this once for the top-level project
     set(CMAKE_CXX_EXTENSIONS OFF)
 
+    # Use C++17 unless the project or the command line already picked a
+    # standard. With CMAKE_CXX_EXTENSIONS OFF and no standard, CMake 3.22+
+    # (policy CMP0128) adds the compiler's default standard instead, also to
+    # configure checks such as check_cxx_source_compiles(). That default is
+    # C++98 for AppleClang 16, which breaks checks written for C++11 or later.
+    if(NOT DEFINED CMAKE_CXX_STANDARD)
+        set(CMAKE_CXX_STANDARD 17)
+    endif()
+
   if(MSVC)
     # Enforce static runtime on Windows/MSVC
     #
