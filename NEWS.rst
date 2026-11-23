@@ -6,17 +6,16 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Add ``zig-toolchain-arm-linux-musleabihf-cortex_a7.cmake`` for ARMv7
+  Cortex-A7 with NEON. Zig's default for ``arm-linux-musleabihf`` is ARMv6
+  without NEON. A toolchain file can set ``ZIG_CPU``, which is passed to zig as
+  ``-mcpu``.
 
 1.3.0
 -----
 * Minor: The clang UBSan toolchain adds ``-fno-sanitize-recover=undefined``,
   so UBSan aborts on the first error. Before, it printed a runtime error and
   carried on, so tests with undefined behaviour still passed.
-* Minor: Add ``zig-toolchain-arm-linux-musleabihf-cortex_a7.cmake`` for ARMv7
-  Cortex-A7 with NEON. Zig's default for ``arm-linux-musleabihf`` is ARMv6
-  without NEON. A toolchain file can set ``ZIG_CPU``, which is passed to zig as
-  ``-mcpu``.
 
 1.2.0
 -----
