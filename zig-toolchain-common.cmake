@@ -22,3 +22,13 @@ set(CMAKE_ASM_COMPILER "${CMAKE_CURRENT_LIST_DIR}/zig-cc${SCRIPT_SUFFIX}" -targe
 set(CMAKE_AR "${CMAKE_CURRENT_LIST_DIR}/zig-ar${SCRIPT_SUFFIX}")
 set(CMAKE_RANLIB "${CMAKE_CURRENT_LIST_DIR}/zig-ranlib${SCRIPT_SUFFIX}")
 set(CMAKE_OBJCOPY "${CMAKE_CURRENT_LIST_DIR}/zig-objcopy${SCRIPT_SUFFIX}")
+
+# CMake's IPO/LTO support (check_ipo_supported() and
+# CMAKE_INTERPROCEDURAL_OPTIMIZATION, which common_settings.cmake turns on for
+# WurfRelease) archives with CMAKE_<LANG>_COMPILER_AR and
+# CMAKE_<LANG>_COMPILER_RANLIB, not CMAKE_AR and CMAKE_RANLIB. Unset, the check
+# fails ("CMAKE_CXX_COMPILER_AR-NOTFOUND") and WurfRelease builds without LTO.
+set(CMAKE_C_COMPILER_AR "${CMAKE_AR}")
+set(CMAKE_CXX_COMPILER_AR "${CMAKE_AR}")
+set(CMAKE_C_COMPILER_RANLIB "${CMAKE_RANLIB}")
+set(CMAKE_CXX_COMPILER_RANLIB "${CMAKE_RANLIB}")
