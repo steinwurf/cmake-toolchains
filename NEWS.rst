@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+1.5.1
+-----
 * Patch: The zig toolchains set ``CMAKE_<LANG>_COMPILER_AR`` and
   ``CMAKE_<LANG>_COMPILER_RANLIB`` to the zig wrappers. CMake's IPO check
   archives with these. Unless an ``llvm-ar`` happened to be on ``PATH``, they
